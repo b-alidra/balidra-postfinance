@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Marlon Ogone package.
+ * This file is part of the Marlon PostFinance package.
  *
  * (c) Marlon BVBA <info@marlon.be>
  *
@@ -14,6 +14,6 @@ require_once __DIR__ . '/vendor/symfony/src/Symfony/Component/ClassLoader/Univer
 
 $loader = new UniversalClassLoader;
 $loader->registerNamespaces(array(
-    'Ogone' => __DIR__ . '/lib/'
+    'PostFinance' => __DIR__ . '/lib/'
 ));
 $loader->register();
