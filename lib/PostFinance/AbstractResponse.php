@@ -22,7 +22,7 @@ abstract class AbstractResponse implements Response {
     protected $postFinanceFields = array('AAVADDRESS', 'AAVCHECK', 'AAVZIP', 'ACCEPTANCE', 'ALIAS', 'AMOUNT', 'BIN', 'BRAND', 'CARDNO', 'CCCTY', 'CN',
         'COMPLUS', 'CREATION_STATUS', 'CURRENCY', 'CVC', 'CVCCHECK', 'DCC_COMMPERCENTAGE', 'DCC_CONVAMOUNT', 'DCC_CONVCCY', 'DCC_EXCHRATE', 'DCC_EXCHRATESOURCE',
         'DCC_EXCHRATETS', 'DCC_INDICATOR', 'DCC_MARGINPERCENTAGE', 'DCC_VALIDHOURS', 'DIGESTCARDNO', 'ECI', 'ED', 'ENCCARDNO', 'IP', 'IPCTY',
-        'NBREMAILUSAGE','NBRIPUSAGE', 'NBRIPUSAGE_ALLTX', 'NBRUSAGE', 'NCERROR', 'NCERRORCN', 'NCERRORCARDNO', 'NCERRORCVC', 'NCERRORED', 'ORDERID',
+        'NBREMAILUSAGE','NBRIPUSAGE', 'NBRIPUSAGE_ALLTX', 'NBRUSAGE', 'NCERROR', 'NCERRORCN', 'NCERRORCARDNO', 'NCERRORCVC', 'NCERRORED', 'NCSTATUS', 'ORDERID',
         'PAYID', 'PM', 'SCO_CATEGORY', 'SCORING', 'STATUS', 'SUBSCRIPTION_ID', 'TRXDATE','VC');
 
     /**
@@ -54,11 +54,12 @@ abstract class AbstractResponse implements Response {
     /**
      * Filter http request parameters
      * @param array $requestParameters
+     * @return array
      */
-    protected function filterRequestParameters(array $httpRequest)
+    protected function filterRequestParameters(array $requestParameters)
     {
         // filter request for PostFinance parameters
-        return array_intersect_key($httpRequest, array_flip($this->postFinanceFields));
+        return array_intersect_key($requestParameters, array_flip($this->postFinanceFields));
     }
 
     /**
@@ -76,7 +77,7 @@ abstract class AbstractResponse implements Response {
 
     /**
      * Retrieves a response parameter
-     * @param string $param
+     * @param string $key
      * @throws \InvalidArgumentException
      */
     public function getParam($key)
@@ -93,5 +94,14 @@ abstract class AbstractResponse implements Response {
         }
 
         return $this->parameters[$key];
+    }
+
+    /**
+     * Get all parameters + SHASIGN
+     * @return array
+     */
+    public function toArray()
+    {
+        return $this->parameters + array('SHASIGN' => $this->shaSign);
     }
 }

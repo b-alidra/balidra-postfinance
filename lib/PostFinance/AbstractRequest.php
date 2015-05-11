@@ -14,61 +14,10 @@ namespace PostFinance;
 use InvalidArgumentException;
 use RuntimeException;
 use BadMethodCallException;
+use PostFinance\ShaComposer\ShaComposer;
 
-abstract class AbstractRequest implements Request {
-
-    protected $brandsmap = array(
-        'Acceptgiro' => 'Acceptgiro',
-        'AIRPLUS' => 'CreditCard',
-        'American Express' => 'CreditCard',
-        'Aurora' => 'CreditCard',
-        'Aurore' => 'CreditCard',
-        'Bank transfer' => 'Bank transfer',
-        'BCMC' => 'CreditCard',
-        'Belfius Direct Net' => 'Belfius Direct Net',
-        'Billy' => 'CreditCard',
-        'cashU' => 'cashU',
-        'CB' => 'CreditCard',
-        'CBC Online' => 'CBC Online',
-        'CENTEA Online' => 'CENTEA Online',
-        'Cofinoga' => 'CreditCard',
-        'Dankort' => 'CreditCard',
-        'Dexia Direct Net' => 'Dexia Direct Net',
-        'Diners Club' => 'CreditCard',
-        'Direct Debits AT' => 'Direct Debits AT',
-        'Direct Debits DE' => 'Direct Debits DE',
-        'Direct Debits NL' => 'Direct Debits NL',
-        'eDankort' => 'eDankort',
-        'EPS' => 'EPS',
-        'Fortis Pay Button' => 'Fortis Pay Button',
-        'giropay' => 'giropay',
-        'iDEAL' => 'iDEAL',
-        'ING HomePay' => 'ING HomePay',
-        'InterSolve' => 'InterSolve',
-        'JCB' => 'CreditCard',
-        'KBC Online' => 'KBC Online',
-        'Maestro' => 'CreditCard',
-        'MaestroUK' => 'CreditCard',
-        'MasterCard' => 'CreditCard',
-        'MiniTix' => 'MiniTix',
-        'MPASS' => 'MPASS',
-        'NetReserve' => 'CreditCard',
-        'Payment on Delivery' => 'Payment on Delivery',
-        'PAYPAL' => 'PAYPAL',
-        'paysafecard' => 'paysafecard',
-        'PingPing' => 'PingPing',
-        'PostFinance + card' => 'PostFinance Card',
-        'PostFinance e-finance' => 'PostFinance e-finance',
-        'PRIVILEGE' => 'CreditCard',
-        'Sofort Uberweisung' => 'DirectEbanking',
-        'Solo' => 'CreditCard',
-        'TUNZ' => 'TUNZ',
-        'UATP' => 'CreditCard',
-        'UNEUROCOM' => 'UNEUROCOM',
-        'VISA' => 'CreditCard',
-        'Wallie' => 'Wallie',
-    );
-
+abstract class AbstractRequest implements Request
+{
     /** @var ShaComposer */
     protected $shaComposer;
 
@@ -88,10 +37,11 @@ abstract class AbstractRequest implements Request {
 
     protected $PostFinanceFields = array(
         'pspid', 'orderid', 'com', 'amount', 'currency', 'language', 'cn', 'email',
-        'ownerzip', 'owneraddress', 'ownercty', 'ownertown', 'ownertelno', 'accepturl',
-        'declineurl', 'exceptionurl', 'cancelurl', 'backurl', 'complus', 'paramplus', 'pm',
-        'brand', 'title', 'bgcolor', 'txtcolor', 'tblbgcolor', 'tbltxtcolor', 'buttonbgcolor',
-        'buttontxtcolor', 'logo', 'fonttype', 'tp', 'paramvar'
+        'cardno', 'cvc', 'ed', 'ownerzip', 'owneraddress', 'ownercty', 'ownertown',
+        'ownertelno', 'accepturl', 'declineurl', 'exceptionurl', 'cancelurl', 'backurl',
+        'complus', 'paramplus', 'pm', 'brand', 'title', 'bgcolor', 'txtcolor', 'tblbgcolor',
+        'tbltxtcolor', 'buttonbgcolor', 'buttontxtcolor', 'logo', 'fonttype', 'tp', 'paramvar',
+        'alias', 'aliasoperation', 'aliasusage', 'aliaspersistedafteruse'
     );
 
     /** @return string */
@@ -184,16 +134,6 @@ abstract class AbstractRequest implements Request {
         $this->parameters['paramplus'] = http_build_query($paramplus);
     }
 
-    public function setBrand($brand)
-    {
-        if(!array_key_exists($brand, $this->brandsmap)) {
-            throw new InvalidArgumentException("Unknown Brand [$brand].");
-        }
-
-        $this->setPaymentMethod($this->brandsmap[$brand]);
-        $this->parameters['brand'] = $brand;
-    }
-
     public function validate()
     {
         foreach($this->getRequiredFields() as $field)
@@ -226,6 +166,9 @@ abstract class AbstractRequest implements Request {
     /**
      * Allows setting PostFinance parameters that don't have a setter -- usually only
      * the unimportant ones like bgcolor, which you'd call with setBgcolor()
+     *
+     * @param $method
+     * @param $args
      */
     public function __call($method, $args)
     {

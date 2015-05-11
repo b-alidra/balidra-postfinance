@@ -1,4 +1,4 @@
-<project name="Ogone" default="build" basedir=".">
+<project name="PostFinance" default="build" basedir=".">
     <target name="clean">
         <delete dir="build"/>
     </target>

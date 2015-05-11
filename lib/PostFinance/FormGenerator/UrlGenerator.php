@@ -24,8 +24,7 @@ class UrlGenerator implements FormGenerator
 {
 
     /**
-     * @param PaymentRequest $paymentRequest
-     *
+     * @param EcommercePaymentRequest $paymentRequest
      * @return string url
      */
     public function render(EcommercePaymentRequest $paymentRequest)

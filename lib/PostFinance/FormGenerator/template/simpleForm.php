@@ -1,12 +1,12 @@
-<form method="post" action="<?php echo $this->getPostFinanceUri()?>" id="<?php echo $this->formName?>" name="<?php echo $this->formName?>">
-<?php foreach($this->getParameters() as $key => $value) :?>
+<form method="post" action="<?php echo $ecommercePaymentRequest->getPostFinanceUri()?>" id="<?php echo $formName?>" name="<?php echo $formName?>">
+<?php foreach($ecommercePaymentRequest->toArray() as $key => $value) :?>
 	<?php if(false !== $value) :?>
 	<input type="hidden" name="<?php echo $key?>" value="<?php echo htmlspecialchars($value) ?>"  />
 	<?php endif?>
 <?php endforeach?>
-<input type="hidden" name="<?php echo PostFinance\PaymentRequest::SHASIGN_FIELD ?>" value="<?php echo $this->getShaSign()?>" />
+<input type="hidden" name="<?php echo PostFinance\PaymentRequest::SHASIGN_FIELD ?>" value="<?php echo $ecommercePaymentRequest->getShaSign()?>" />
 
-<?php if($this->showSubmitButton) :?>
-	<input name="PostFinancesubmit" type="submit" value="Submit" id="PostFinancesubmit" />
+<?php if($showSubmitButton) :?>
+	<input name="ogonesubmit" type="submit" value="Submit" id="ogonesubmit" />
 <?php endif?>
 </form>

@@ -12,8 +12,6 @@
 
 namespace PostFinance\ShaComposer;
 
-use PostFinance\Passphrase;
-
 /**
  * SHA Composers interface
  */

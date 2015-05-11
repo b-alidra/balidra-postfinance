@@ -17,7 +17,9 @@ use PostFinance\ShaComposer\AllParametersShaComposer;
 use PostFinance\PaymentRequest;
 use PostFinance\Ecommerce\EcommercePaymentRequest;
 use PostFinance\DirectLink\CreateAliasRequest;
+use PostFinance\DirectLink\DirectLinkMaintenanceRequest;
 use PostFinance\DirectLink\DirectLinkPaymentRequest;
+use PostFinance\DirectLink\DirectLinkQueryRequest;
 
 require_once 'PHPUnit/Framework/TestCase.php';
 require_once __DIR__.'/PostFinance/Tests/ShaComposer/FakeShaComposer.php';
@@ -108,6 +110,31 @@ abstract class TestCase extends PHPUnit_Framework_TestCase
         $directLinkRequest->setAmount(100);
         $directLinkRequest->setCurrency('EUR');
         $directLinkRequest->setOrderid('999');
+
+        return $directLinkRequest;
+    }
+
+    /** @return DirectLinkQueryRequest */
+    protected function provideMinimalDirectLinkQueryRequest()
+    {
+        $directLinkRequest = new DirectLinkQueryRequest(new FakeShaComposer());
+        $directLinkRequest->setPspid('123456');
+        $directLinkRequest->setUserId('user_1234');
+        $directLinkRequest->setPassword('abracadabra');
+        $directLinkRequest->setPayId('12345678');
+
+        return $directLinkRequest;
+    }
+
+    /** @return DirectLinkMaintenanceRequest */
+    protected function provideMinimalDirectLinkMaintenanceRequest()
+    {
+        $directLinkRequest = new DirectLinkMaintenanceRequest(new FakeShaComposer());
+        $directLinkRequest->setPspid('123456');
+        $directLinkRequest->setUserId('user_1234');
+        $directLinkRequest->setPassword('abracadabra');
+        $directLinkRequest->setPayId('12345678');
+        $directLinkRequest->setOperation('REN');
 
         return $directLinkRequest;
     }

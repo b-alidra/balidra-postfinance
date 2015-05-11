@@ -22,6 +22,10 @@ so it can be autoloaded using PSR-0 classloaders like the one in Symfony2. See a
 
 Both EcommercePaymentRequest, CreateAliasRequest and PaymentResponse are authenticated by comparing the SHA sign, which is a hash of the parameters and a secret passphrase. You can create the hash using a ShaComposer.
 
+The library also allows:
+- Fetching order information via PostFinance API using DirectLinkQueryRequest
+- Executing maintenance request via PostFinance API using DirectLinkMaintenanceRequest
+
 # SHA Composers #
 
 PostFinance provides 2 methods to generate a SHA sign:
@@ -72,7 +76,7 @@ This library currently supports both the legacy method "Main parameters only" an
 
 	// Set various params:
 	$ecommercePaymentRequest->setOrderid('123456');
-	$ecommercePaymentRequest->setAmount('150'); // in cents
+	$ecommercePaymentRequest->setAmount(150); // in cents
 	$ecommercePaymentRequest->setCurrency('EUR');
 	// ...
 
@@ -119,7 +123,7 @@ This library currently supports both the legacy method "Main parameters only" an
 	// and the SHASIGN
 ```
 
-# DirectLinkRequest #
+# DirectLinkPaymentRequest #
 
 ```php
 	<?php
@@ -149,6 +153,56 @@ This library currently supports both the legacy method "Main parameters only" an
 	// you have access to $directLinkRequest->toArray(), $directLinkRequest->getPostFinanceUri() and directLinkRequest->getShaSign()
 ```
 
+# DirectLinkQueryRequest #
+
+```php
+	<?php
+
+	use PostFinance\DirectLink\DirectLinkQueryRequest;
+	use PostFinance\Passphrase;
+	use PostFinance\ShaComposer\AllParametersShaComposer;
+	use PostFinance\DirectLink\Alias;
+
+	$passphrase = new Passphrase('my-sha-in-passphrase-defined-in-ogone-interface');
+	$shaComposer = new AllParametersShaComposer($passphrase);
+	$shaComposer->addParameterFilter(new ShaInParameterFilter); //optional
+
+	$directLinkRequest = new DirectLinkQueryRequest($shaComposer);
+	$directLinkRequest->setPspid('123456');
+	$directLinkRequest->setUserId('ogone-api-user');
+	$directLinkRequest->setPassword('ogone-api-password');
+	$directLinkRequest->setPayId('order_1234');
+	$directLinkRequest->validate();
+
+	// now create a url to be posted to PostFinance
+	// you have access to $directLinkRequest->toArray(), $directLinkRequest->getPostFinanceUri() and directLinkRequest->getShaSign()
+```
+
+# DirectLinkMaintenanceRequest #
+
+```php
+	<?php
+
+	use PostFinance\DirectLink\DirectLinkMaintenanceRequest;
+	use PostFinance\Passphrase;
+	use PostFinance\ShaComposer\AllParametersShaComposer;
+	use PostFinance\DirectLink\Alias;
+
+	$passphrase = new Passphrase('my-sha-in-passphrase-defined-in-ogone-interface');
+	$shaComposer = new AllParametersShaComposer($passphrase);
+	$shaComposer->addParameterFilter(new ShaInParameterFilter); //optional
+
+	$directLinkRequest = new DirectLinkMaintenanceRequest($shaComposer);
+	$directLinkRequest->setPspid('123456');
+	$directLinkRequest->setUserId('ogone-api-user');
+	$directLinkRequest->setPassword('ogone-api-password');
+	$directLinkRequest->setPayId('order_1234');
+	$directLinkRequest->setOperation(DirectLinkMaintenanceRequest::OPERATION_AUTHORISATION_RENEW);
+	$directLinkRequest->validate();
+
+	// now create a url to be posted to PostFinance
+	// you have access to $directLinkRequest->toArray(), $directLinkRequest->getPostFinanceUri() and directLinkRequest->getShaSign()
+```
 
 # EcommercePaymentResponse #
 
