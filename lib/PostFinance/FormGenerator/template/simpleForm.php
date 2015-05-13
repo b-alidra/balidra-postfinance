@@ -7,6 +7,15 @@
 <input type="hidden" name="<?php echo PostFinance\PaymentRequest::SHASIGN_FIELD ?>" value="<?php echo $ecommercePaymentRequest->getShaSign()?>" />
 
 <?php if($showSubmitButton) :?>
-	<input name="ogonesubmit" type="submit" value="Submit" id="ogonesubmit" />
+<input name="Postfinancesubmit" type="submit" value="<?php echo $this->submitButtonTitle; ?>" id="Postfinancesubmit" />
 <?php endif?>
 </form>
+
+<?php if($this->autoSubmitTimeout > 0) :?>
+<script type="text/javascript">
+    setTimeout(function() {
+        document.getElementById("<?php echo $formName; ?>").submit();
+    }, <?php echo $this->autoSubmitTimeout; ?>);
+</script>
+<?php endif; ?>
+

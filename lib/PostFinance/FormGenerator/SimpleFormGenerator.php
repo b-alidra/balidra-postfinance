@@ -29,6 +29,21 @@ class SimpleFormGenerator implements FormGenerator
     private $showSubmitButton = null;
 
     /**
+     * Submit button title
+     *
+     * @var string
+     **/
+    protected $submitButtonTitle = 'Submit';
+
+    /**
+     * Timeout in milliseconds before the form auto submission
+     * Set value <= 0 to disable auto submission
+     *
+     * @var integer
+     */
+    protected $autoSubmitTimeout = 0;
+
+    /**
      * @param EcommercePaymentRequest $ecommercePaymentRequest
      * @param string $formName
      * @param bool $showSubmitButton
@@ -60,5 +75,27 @@ class SimpleFormGenerator implements FormGenerator
     public function setFormName($formName)
     {
         $this->formName = $formName;
+    }
+
+    /**
+     * Set the submit button title
+     *
+     * @param string $title: The submit button title
+     */
+    public function setSubmitButtonTitle($title)
+    {
+        $this->submitButtonTitle = $title;
+        return $this;
+    }
+
+    /**
+     * Set the auto submit timeout
+     *
+     * @param integer $timeout
+     */
+    public function setAutoSubmitTimeout($timeout)
+    {
+        $this->autoSubmitTimeout= $timeout;
+        return $this;
     }
 }
