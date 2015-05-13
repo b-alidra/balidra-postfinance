@@ -1,9 +1,13 @@
 {
-    "name": "wysow/postfinance",
+    "name": "balidra/postfinance",
     "autoload": {
         "psr-0": { "PostFinance": "lib/" }
     },
     "authors": [
+        {
+            "name":     "Belkacem Alidra",
+            "homepage": "http://www.b-alidra.com"
+        },
         {
             "name":     "Gaultier Boniface",
             "homepage": "http://www.wysow.fr"
