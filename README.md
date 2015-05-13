@@ -10,9 +10,22 @@ Requirements:
 
 As always, this is work in progress. Please feel free to fork this project and let them pull requests coming!
 
+Installation:
+-------------
+The library is [PSR-0 compliant](http://www.php-fig.org/psr/psr-0/fr/)
+ and the simplest way to install it is via composer, simply add:
+
+    {
+        "require": {
+            "ba/php-ticons": "dev-master"
+        }
+    }
+
+into your composer.json, then run 'composer install' or 'composer update' as required.
+
 ## Overview ##
 
-The library complies to the [PSR-0 standard](http://groups.google.com/group/php-standards/web/psr-0-final-proposal),
+The library complies to the [PSR-0 standard](http://www.php-fig.org/psr/psr-0/fr/),
 so it can be autoloaded using PSR-0 classloaders like the one in Symfony2. See autoload.php for an example.
 
 - Create an EcommercePaymentRequest or CreateAliasRequest, containing all the info needed by PostFinance.
