@@ -20,7 +20,7 @@ class SimpleFormGeneratorTest extends \TestCase
 	public function GeneratesAForm()
 	{
         $expected =
-            '<form method="post" action="https://e-payment.postfinance.ch/ncol/test/orderstandard.asp" id="ogone" name="ogone">
+            '<form method="post" action="https://e-payment.postfinance.ch/ncol/test/orderstandard.asp" id="Postfinance" name="Postfinance">
                 <input type="hidden" name="PSPID" value="123456789" />
                 <input type="hidden" name="ORDERID" value="987654321" />
                 <input type="hidden" name="CURRENCY" value="EUR" />
@@ -32,7 +32,7 @@ class SimpleFormGeneratorTest extends \TestCase
                 <input type="hidden" name="OWNERCTY" value="FR" />
                 <input type="hidden" name="EMAIL" value="louis.xiv@versailles.fr" />
                 <input type="hidden" name="'.PaymentRequest::SHASIGN_FIELD.'" value="foo" />
-                <input type="submit" value="Submit" id="ogonesubmit" name="ogonesubmit" />
+                <input type="submit" value="Submit" id="Postfinancesubmit" name="Postfinancesubmit" />
             </form>';
 
         $paymentRequest = $this->provideMinimalPaymentRequest();
@@ -40,14 +40,14 @@ class SimpleFormGeneratorTest extends \TestCase
         $formGenerator = new SimpleFormGenerator();
 
         $this->assertXmlStringEqualsXmlString($expected, $formGenerator->render($paymentRequest));
-        $this->assertXmlStringEqualsXmlString($expected, $formGenerator->render($paymentRequest, 'ogone', true));
+        $this->assertXmlStringEqualsXmlString($expected, $formGenerator->render($paymentRequest, 'Postfinance', true));
 	}
 
     /** @test */
     public function BCCheck()
     {
         $expected =
-            '<form method="post" action="https://e-payment.postfinance.ch/ncol/test/orderstandard.asp" id="ogoneform" name="ogoneform">
+            '<form method="post" action="https://e-payment.postfinance.ch/ncol/test/orderstandard.asp" id="Postfinanceform" name="Postfinanceform">
                 <input type="hidden" name="PSPID" value="123456789" />
                 <input type="hidden" name="ORDERID" value="987654321" />
                 <input type="hidden" name="CURRENCY" value="EUR" />
@@ -64,9 +64,9 @@ class SimpleFormGeneratorTest extends \TestCase
         $paymentRequest = $this->provideMinimalPaymentRequest();
 
         $formGenerator = new SimpleFormGenerator();
-        $formGenerator->setFormName('ogoneform');
+        $formGenerator->setFormName('Postfinanceform');
         $formGenerator->showSubmitButton(false);
         $this->assertXmlStringEqualsXmlString($expected, $formGenerator->render($paymentRequest));
-        $this->assertXmlStringEqualsXmlString($expected, $formGenerator->render($paymentRequest, 'ogoneform', false));
+        $this->assertXmlStringEqualsXmlString($expected, $formGenerator->render($paymentRequest, 'Postfinanceform', false));
     }
 }

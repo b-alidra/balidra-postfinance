@@ -49,7 +49,7 @@ class SimpleFormGenerator implements FormGenerator
      * @param bool $showSubmitButton
      * @return string HTML
      */
-    public function render(EcommercePaymentRequest $ecommercePaymentRequest, $formName = 'ogone', $showSubmitButton = true)
+    public function render(EcommercePaymentRequest $ecommercePaymentRequest, $formName = 'Postfinance', $showSubmitButton = true)
     {
         $formName = null !== $this->formName?$this->formName:$formName;
         $showSubmitButton = null !== $this->showSubmitButton?$this->showSubmitButton:$showSubmitButton;
